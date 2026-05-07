@@ -5,8 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import { WebPhoneFrame } from '@/shared';
-import { useColorScheme } from '../hooks/use-color-scheme';
+import { useColorScheme, WebPhoneFrame } from '@/shared';
 
 export const unstable_settings = {
   anchor: '(onboarding)',

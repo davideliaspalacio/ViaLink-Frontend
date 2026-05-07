@@ -1,7 +1,7 @@
 import { Platform, View, useWindowDimensions } from 'react-native';
 
 // Wrapper que solo en web (≥768pt) encuadra la app dentro de un marco
-// estilo iPhone 15 (393×852pt) centrado sobre un backdrop oscuro.
+// estilo iPhone 16 Pro Max (440×956pt) centrado sobre un backdrop oscuro.
 // En nativo o en viewport móvil renderiza children directo sin overhead.
 
 interface WebPhoneFrameProps {
@@ -25,24 +25,24 @@ export function WebPhoneFrame({ children }: WebPhoneFrameProps) {
         backgroundColor: '#0E0F12',
       }}
     >
-      {/* Bezel exterior */}
+      {/* Bezel exterior — iPhone 16 Pro Max (440×956pt + 8pt bezel = 456×972) */}
       <View
         // @ts-expect-error — boxShadow es válido en RNW
         style={{
-          width: 405,
-          height: 'min(864px, calc(100vh - 24px))',
-          maxHeight: 864,
-          borderRadius: 56,
+          width: 456,
+          height: 'min(972px, calc(100vh - 24px))',
+          maxHeight: 972,
+          borderRadius: 60,
           backgroundColor: '#1C1D20',
-          padding: 6,
+          padding: 8,
           boxShadow: '0 30px 80px rgba(0, 0, 0, 0.55)',
         }}
       >
-        {/* Pantalla del teléfono */}
+        {/* Pantalla del teléfono — 440×956pt */}
         <View
           style={{
             flex: 1,
-            borderRadius: 50,
+            borderRadius: 52,
             overflow: 'hidden',
             backgroundColor: '#FFFFFF',
             position: 'relative',
