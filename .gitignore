@@ -41,3 +41,8 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Vialink — personal / local
+vialink-design-system.zip
+INSTRUCCIONES_CLAUDE_CODE.md
+docs/workflow-tmp/
