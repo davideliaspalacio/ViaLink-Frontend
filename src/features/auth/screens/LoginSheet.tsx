@@ -2,7 +2,7 @@ import { Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { IconCircle, radius, spacing, typography, useTheme } from '@/shared';
+import { IconCircle, radius, SheetHeader, spacing, typography, useTheme } from '@/shared';
 
 // US-025/026 · P13 · Modal Login.
 // Sheet contextual: bookmark/compartir/reportar. Apple/Google flow.
@@ -34,11 +34,12 @@ export function LoginSheet() {
 
   return (
     <SafeAreaView edges={['bottom']} style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
+      <SheetHeader />
       <View
         style={{
           flex: 1,
           paddingHorizontal: spacing.xl,
-          paddingTop: spacing.xxxl,
+          paddingTop: spacing.lg,
           gap: spacing.lg,
         }}
       >

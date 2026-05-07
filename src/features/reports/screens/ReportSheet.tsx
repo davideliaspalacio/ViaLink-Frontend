@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PrimaryButton, radius, spacing, typography, useTheme } from '@/shared';
+import { PrimaryButton, radius, SheetHeader, spacing, typography, useTheme } from '@/shared';
 
 // US-019 · P14 · Modal Reportar incidencia.
 // Sheet contextual sobre P5/P10 con grid 2x3. Tonos warning/danger según
@@ -43,10 +43,11 @@ export function ReportSheet() {
 
   return (
     <SafeAreaView edges={['bottom']} style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
+      <SheetHeader />
       <View
         style={{
           paddingHorizontal: spacing.lg,
-          paddingTop: spacing.lg,
+          paddingTop: spacing.md,
           paddingBottom: spacing.md,
         }}
       >

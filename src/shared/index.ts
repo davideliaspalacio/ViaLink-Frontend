@@ -9,3 +9,4 @@ export { IconCircle } from './components/IconCircle';
 export { EtaPrediction } from './components/EtaPrediction';
 export type { EtaConfidence } from './components/EtaPrediction';
 export { WebPhoneFrame } from './components/WebPhoneFrame';
+export { SheetHeader } from './components/SheetHeader';

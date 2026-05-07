@@ -1,7 +1,8 @@
-import { useMemo, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { useMemo, useRef, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { spacing, typography, useTheme } from '@/shared';
 import { MapPlaceholder } from '../components/MapPlaceholder';
@@ -35,9 +36,15 @@ export function MapScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheet>(null);
+  const [sheetIndex, setSheetIndex] = useState(1);
 
   // Detents según spec: small (~25%) y medium (~50% / 426pt approx).
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
+
+  const cycleSheet = () => {
+    const next = (sheetIndex + 1) % snapPoints.length;
+    sheetRef.current?.snapToIndex(next);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
@@ -66,12 +73,16 @@ export function MapScreen() {
         ref={sheetRef}
         index={1}
         snapPoints={snapPoints}
+        onChange={setSheetIndex}
         backgroundStyle={{ backgroundColor: theme.colors.surfaceBase }}
         handleIndicatorStyle={{ backgroundColor: theme.colors.textTertiary }}
       >
-        <BottomSheetView style={{ flex: 1 }}>
+        <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 40 }}>
           <View
             style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
               paddingTop: spacing.xs,
               paddingHorizontal: spacing.xl,
               paddingBottom: spacing.md,
@@ -80,6 +91,26 @@ export function MapScreen() {
             <Text style={[typography.title3, { color: theme.colors.textPrimary }]}>
               Cerca de ti
             </Text>
+            <Pressable
+              hitSlop={8}
+              onPress={cycleSheet}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 16,
+                backgroundColor: theme.colors.surfaceRaised,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Ionicons
+                name={sheetIndex === 2 ? 'chevron-down' : 'chevron-up'}
+                size={16}
+                color={theme.colors.textSecondary}
+              />
+            </Pressable>
+          </View>
+          <View style={{ paddingHorizontal: spacing.xl }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -145,7 +176,7 @@ export function MapScreen() {
               Las rutas que más uses aparecerán aquí.
             </Text>
           </View>
-        </BottomSheetView>
+        </BottomSheetScrollView>
       </BottomSheet>
     </View>
   );

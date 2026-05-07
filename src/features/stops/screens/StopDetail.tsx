@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, router } from 'expo-router';
-import { spacing, typography, useTheme } from '@/shared';
+import { SheetHeader, spacing, typography, useTheme } from '@/shared';
 import { RouteEta, RouteRow } from '../components/RouteRow';
 
 // US-014 · P11 · Detalle de paradero (modal sheet iOS).
@@ -48,6 +48,7 @@ export function StopDetail() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
+      <SheetHeader horizontalPadding={20} />
       <ScrollView contentContainerStyle={{ paddingBottom: spacing.huge }}>
         <Header
           title={stop.title}

@@ -7,6 +7,7 @@ import {
   BusPill,
   PrimaryButton,
   radius,
+  SheetHeader,
   spacing,
   typography,
   useTheme,
@@ -54,6 +55,7 @@ export function AssistantSheet() {
 
   return (
     <SafeAreaView edges={['bottom']} style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
+      <SheetHeader />
       <View style={{ flex: 1, paddingHorizontal: spacing.lg, paddingTop: spacing.md }}>
         {state === 'idle' && (
           <IdleView

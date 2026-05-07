@@ -7,6 +7,7 @@ import {
   IconCircle,
   PrimaryButton,
   radius,
+  SheetHeader,
   spacing,
   typography,
   useTheme,
@@ -23,11 +24,12 @@ export function ShareTripSheet() {
 
   return (
     <SafeAreaView edges={['bottom']} style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}>
+      <SheetHeader />
       <View
         style={{
           flex: 1,
           paddingHorizontal: spacing.xl,
-          paddingTop: spacing.xxxl,
+          paddingTop: spacing.lg,
           gap: spacing.lg,
           alignItems: 'center',
         }}
