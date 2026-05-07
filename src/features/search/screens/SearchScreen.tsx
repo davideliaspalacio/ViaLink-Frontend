@@ -239,9 +239,17 @@ function IdleView({
         }}
       >
         {QUICK_PRIMARY.map((q) => (
-          <QuickCard key={q.id} item={q} />
+          <QuickCard
+            key={q.id}
+            item={q}
+            onPress={(item) =>
+              router.push(
+                `/route-options?destination=${encodeURIComponent(item.label)}`,
+              )
+            }
+          />
         ))}
-        <AddQuickCard />
+        <AddQuickCard onPress={() => router.push('/save-destination')} />
       </View>
 
       {recents.length > 0 && (
@@ -278,7 +286,16 @@ function IdleView({
           </View>
 
           {recents.map((r) => (
-            <RecentRow key={r.id} item={r} onFill={onFillRecent} />
+            <RecentRow
+              key={r.id}
+              item={r}
+              onPress={(item) =>
+                router.push(
+                  `/route-options?destination=${encodeURIComponent(item.title)}`,
+                )
+              }
+              onFill={onFillRecent}
+            />
           ))}
         </View>
       )}

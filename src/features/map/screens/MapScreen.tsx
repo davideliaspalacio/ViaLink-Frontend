@@ -51,7 +51,10 @@ export function MapScreen() {
           right: 0,
         }}
       >
-        <SearchBar />
+        <SearchBar
+          onPress={() => router.push('/(tabs)/search')}
+          onPressAvatar={() => router.push('/(tabs)/profile')}
+        />
       </View>
 
       {/* FABs anchored above the medium detent (~50% of typical screen).
