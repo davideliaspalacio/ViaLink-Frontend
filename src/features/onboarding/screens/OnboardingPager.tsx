@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 import {
   FlatList,
+  LayoutChangeEvent,
   ListRenderItemInfo,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
   View,
-  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -46,13 +46,21 @@ const SLIDES: Slide[] = [
 
 export function OnboardingPager() {
   const theme = useTheme();
-  const { width } = useWindowDimensions();
   const listRef = useRef<FlatList<Slide>>(null);
   const [index, setIndex] = useState(0);
+  // Tomamos el ancho del contenedor (no de la ventana) para que el pager
+  // funcione tanto en nativo como dentro del frame iPhone en web.
+  const [pagerWidth, setPagerWidth] = useState(0);
   const isLast = index === SLIDES.length - 1;
 
+  const handleLayout = (e: LayoutChangeEvent) => {
+    const w = e.nativeEvent.layout.width;
+    if (w !== pagerWidth) setPagerWidth(w);
+  };
+
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const next = Math.round(e.nativeEvent.contentOffset.x / width);
+    if (pagerWidth === 0) return;
+    const next = Math.round(e.nativeEvent.contentOffset.x / pagerWidth);
     if (next !== index) setIndex(next);
   };
 
@@ -69,7 +77,9 @@ export function OnboardingPager() {
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<Slide>) => (
-    <View style={{ width, paddingHorizontal: spacing.xl, gap: spacing.xl }}>
+    <View
+      style={{ width: pagerWidth, paddingHorizontal: spacing.xl, gap: spacing.xl }}
+    >
       <View style={{ marginTop: spacing.huge }}>
         <OnboardingHero variant={item.hero} />
       </View>
@@ -88,19 +98,27 @@ export function OnboardingPager() {
     <SafeAreaView
       edges={['top', 'bottom']}
       style={{ flex: 1, backgroundColor: theme.colors.surfaceBase }}
+      onLayout={handleLayout}
     >
-      <FlatList
-        ref={listRef}
-        data={SLIDES}
-        keyExtractor={(_, i) => String(i)}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        bounces={false}
-      />
+      {pagerWidth > 0 && (
+        <FlatList
+          ref={listRef}
+          data={SLIDES}
+          keyExtractor={(_, i) => String(i)}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          bounces={false}
+          getItemLayout={(_, i) => ({
+            length: pagerWidth,
+            offset: pagerWidth * i,
+            index: i,
+          })}
+        />
+      )}
       <View style={{ paddingHorizontal: spacing.xl, paddingBottom: spacing.lg, gap: spacing.lg }}>
         <PageIndicator count={SLIDES.length} activeIndex={index} />
         <PrimaryButton
